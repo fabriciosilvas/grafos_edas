@@ -1,11 +1,14 @@
+from math import inf
+
 class HeapMinima:
-    def __init__(self, listaElementos:list[int]=[]):
-        self.qtdElementos: int = len(listaElementos)
-        self.tamanhoHeap: int = self.qtdElementos
-        self.vetorElementos: list[int] = listaElementos
+    def __init__(self, listaElementos=None):
+        if listaElementos is None:
+            listaElementos = []
+        self.tamanhoHeap: int = len(listaElementos)
+        self.vetorElementos: list[int|float] = listaElementos
 
     def getPai(self, indice: int) -> int:
-        return (indice - 1) // 2
+        return max((indice - 1), 0) // 2
 
     def getFilhoEsquerdo(self, indice: int) -> int:
         return 2 * indice + 1
@@ -32,14 +35,15 @@ class HeapMinima:
             self.minHeapfy(menorElemento)
 
     def construirHeapMinima(self) -> None:
-        self.tamanhoHeap = self.qtdElementos
+        self.tamanhoHeap = len(self.vetorElementos)
         tamanhoHeap: int = len(self.vetorElementos)
         for i in range((tamanhoHeap - 2) // 2, -1, -1):
             self.minHeapfy(i)
 
     def heapSort(self) -> None:
+        self.construirHeapMinima()
         tamanhoHeap: int = len(self.vetorElementos)
-        for i in range(tamanhoHep - 1, 0, -1):
+        for i in range(tamanhoHeap - 1, 0, -1):
             temp: int = self.vetorElementos[0]
             self.vetorElementos[0] = self.vetorElementos[i]
             self.vetorElementos[i] = temp
@@ -47,35 +51,43 @@ class HeapMinima:
             self.minHeapfy(0)
             
 
-    def inserirElemento(self, elemento: indice) -> None:
+    def inserirElemento(self, elemento: int) -> None:
         self.tamanhoHeap += 1
-        self.vetoElementos[self.tamahoHeap - 1] = -inf
-        self.diminuirValorElemento(self.tamahoHeap, elemento)
+        self.vetorElementos.append(-1)
+        self.vetorElementos[self.tamanhoHeap - 1] = inf
+        self.diminuirValorElemento(self.tamanhoHeap - 1, elemento)
 
     def obterElementoMinimo(self) -> int:
         return self.vetorElementos[0]
 
-    def removerElementoMinimo(self):
-        pass
+    def removerElementoMinimo(self) -> int:
+        if self.tamanhoHeap < 1:
+            print("Heap não possui elementos")
+            return -1
+
+        elementoMinimo: int = self.vetorElementos[0]
+        self.vetorElementos[0] = self.vetorElementos[self.tamanhoHeap - 1]
+        self.tamanhoHeap -= 1
+
+        self.minHeapfy(0)
+        return elementoMinimo
+
+    def __len__(self):
+        return self.tamanhoHeap
+
 
     def diminuirValorElemento(self, tamanhoHeap: int, elemento: int) -> None:
-        if elemento < self.vetorElementos[tamanhoHeap - 1]:
+        if elemento > self.vetorElementos[tamanhoHeap]:
             print("Erro")
             return
-        self.vetorElementos[tamanhoHeap - 1] = elemento
-        while tamahoHeap > 0 and self.vetorElementos[self.getPai(tamanhoHeap-1)] < self.vetorElementos[tamanhoHeap - 1]:
-            temp: int = self.vetorElementos[tamanhoHeap - 1]
-            self.vetorElementos[tamanhoHeap - 1] = self.vetorElementos[self.getPai(tamanhoHeap - 1)]
-            self.vetorElementos[self.getPai(tamanhoHeap - 1)] = temp
-            tamanhoHeap = self.getPai(tamanhoHeap - 1)
+
+        self.vetorElementos[tamanhoHeap] = elemento
+        while tamanhoHeap > 0 and self.vetorElementos[self.getPai(tamanhoHeap)] > self.vetorElementos[tamanhoHeap]:
+            temp: int = self.vetorElementos[tamanhoHeap]
+            self.vetorElementos[tamanhoHeap] = self.vetorElementos[self.getPai(tamanhoHeap)]
+            self.vetorElementos[self.getPai(tamanhoHeap)] = temp
+            tamanhoHeap = self.getPai(tamanhoHeap)
     
 
     def __str__(self) -> str:
         return str(self.vetorElementos)
-
-if __name__ == '__main__':
-    lista = [4,1,3,2,16,9,10,14,8,7]
-    heapTeste = HeapMinima(lista)
-    print(heapTeste)
-    heapTeste.construirHeapMinima()
-    print(heapTeste)
