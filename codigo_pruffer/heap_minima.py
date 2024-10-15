@@ -4,7 +4,9 @@ class HeapMinima:
     def __init__(self, listaElementos=None):
         if listaElementos is None:
             listaElementos = []
-        self.tamanhoHeap: int = len(listaElementos)
+        else:
+            self.tamanhoHeap: int = len(listaElementos)
+            self.construirHeapMinima()
         self.vetorElementos: list[int|float] = listaElementos
 
     def getPai(self, indice: int) -> int:
@@ -49,7 +51,6 @@ class HeapMinima:
             self.vetorElementos[i] = temp
             self.tamanhoHeap -= 1
             self.minHeapfy(0)
-            
 
     def inserirElemento(self, elemento: int) -> None:
         self.tamanhoHeap += 1
