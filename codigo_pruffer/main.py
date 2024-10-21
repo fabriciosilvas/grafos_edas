@@ -3,7 +3,7 @@ from heap_minima_par import HeapMinimaPar
 def gerarCodigoPruffer(matrizAdjacencia: list[list[int]]) -> list[int]:
     grauVertices: list[list[int]] = [[linha + 1, sum(matrizAdjacencia[linha])] for linha in range(len(matrizAdjacencia))]
 
-    heap = HeapMinimaPar(grauVertices)
+    heap: HeapMinimaPar = HeapMinimaPar(grauVertices)
 
     codigoPruffer: list[int] = [0] * (len(matrizAdjacencia) - 2)
 
