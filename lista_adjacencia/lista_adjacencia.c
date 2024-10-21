@@ -114,14 +114,15 @@ int inicializaListasEncadeadas(ElementoListaAdj **listaAdj, int tamanhoLista) {
 }
 
 int adicionaAresta(ElementoListaAdj **listaAdj, int verticeInicial, int verticeFinal, int tamanhoLista) {
-    ElementoListaAdj *elementoTemp = buscaElementoListaAdj(listaAdj, verticeInicial, tamanhoLista);
+    ElementoListaAdj *elementoTemp1 = buscaElementoListaAdj(listaAdj, verticeInicial, tamanhoLista);
+    ElementoListaAdj *elementoTemp2 = buscaElementoListaAdj(listaAdj, verticeFinal, tamanhoLista);
 
-    if (elementoTemp == NULL) {
-        printf("Nao existe vertice com esse rotulo\n");
+    if (elementoTemp1 == NULL || elementoTemp2 == NULL) {
+        printf("Nao existe(m) vertice(s) com esse(s) rotulo(s)\n");
         return 0;
     }
 
-    if (elementoTemp->listaEncadeada == NULL) {
+    if (elementoTemp1->listaEncadeada == NULL) {
         No *noTemp = malloc(sizeof(No));
 
         if (noTemp == NULL) {
@@ -130,12 +131,26 @@ int adicionaAresta(ElementoListaAdj **listaAdj, int verticeInicial, int verticeF
 
         noTemp->rotulo = verticeFinal;
         noTemp->proxNo = NULL;
-        elementoTemp->listaEncadeada = noTemp;
-
-        return 1;
+        elementoTemp1->listaEncadeada = noTemp;
+    }
+    else {
+        inserirElemento(verticeFinal, &(elementoTemp1->listaEncadeada));
     }
 
-    inserirElemento(verticeFinal, &(elementoTemp->listaEncadeada));
+    if (elementoTemp2->listaEncadeada == NULL) {
+        No *noTemp = malloc(sizeof(No));
+
+        if (noTemp == NULL) {
+            estouroDeMemoria();
+        }
+
+        noTemp->rotulo = verticeFinal;
+        noTemp->proxNo = NULL;
+        elementoTemp2->listaEncadeada = noTemp;
+    }
+    else {
+        inserirElemento(verticeFinal, &(elementoTemp2->listaEncadeada));
+    }
 
     return 1;
 
