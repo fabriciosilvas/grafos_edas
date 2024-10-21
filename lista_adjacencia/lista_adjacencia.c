@@ -144,12 +144,12 @@ int adicionaAresta(ElementoListaAdj **listaAdj, int verticeInicial, int verticeF
             estouroDeMemoria();
         }
 
-        noTemp->rotulo = verticeFinal;
+        noTemp->rotulo = verticeInicial;
         noTemp->proxNo = NULL;
         elementoTemp2->listaEncadeada = noTemp;
     }
     else {
-        inserirElemento(verticeFinal, &(elementoTemp2->listaEncadeada));
+        inserirElemento(verticeInicial, &(elementoTemp2->listaEncadeada));
     }
 
     return 1;
